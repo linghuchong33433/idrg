@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fartecx.dao.DeviceDataEntityDao" >
+  <resultMap id="BaseResultMap" type="com.fartecx.pojo.DeviceDataEntity" >
+    <id column="dataid" property="dataid" jdbcType="VARCHAR" />
+    <result column="t" property="t" jdbcType="TIMESTAMP" />
+    <result column="device" property="device" jdbcType="VARCHAR" />
+    <result column="temp" property="temp" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      dataid, t, device, temp
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fartecx.pojo.DeviceDataEntityQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from devicedata
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    dataid,t,device,temp
+    from devicedata
+    where dataid = #{dataid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from devicedata
+    where dataid = #{dataid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fartecx.pojo.DeviceDataEntityQuery" >
+    delete from devicedata
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fartecx.pojo.DeviceDataEntity" >
+    insert into devicedata (dataid, t, device, 
+      temp)
+    values (#{dataid,jdbcType=VARCHAR}, #{t,jdbcType=TIMESTAMP}, #{device,jdbcType=VARCHAR}, 
+      #{temp,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fartecx.pojo.DeviceDataEntity" >
+    insert into devicedata
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataid != null" >
+        dataid,
+      </if>
+      <if test="t != null" >
+        t,
+      </if>
+      <if test="device != null" >
+        device,
+      </if>
+      <if test="temp != null" >
+        temp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataid != null" >
+        #{dataid,jdbcType=VARCHAR},
+      </if>
+      <if test="t != null" >
+        #{t,jdbcType=TIMESTAMP},
+      </if>
+      <if test="device != null" >
+        #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="temp != null" >
+        #{temp,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fartecx.pojo.DeviceDataEntityQuery" resultType="java.lang.Integer" >
+    select count(*) from devicedata
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update devicedata
+    <set >
+      <if test="record.dataid != null" >
+        dataid = #{record.dataid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.t != null" >
+        t = #{record.t,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.device != null" >
+        device = #{record.device,jdbcType=VARCHAR},
+      </if>
+      <if test="record.temp != null" >
+        temp = #{record.temp,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update devicedata
+    set dataid = #{record.dataid,jdbcType=VARCHAR},
+      t = #{record.t,jdbcType=TIMESTAMP},
+      device = #{record.device,jdbcType=VARCHAR},
+      temp = #{record.temp,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fartecx.pojo.DeviceDataEntity" >
+    update devicedata
+    <set >
+      <if test="t != null" >
+        t = #{t,jdbcType=TIMESTAMP},
+      </if>
+      <if test="device != null" >
+        device = #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="temp != null" >
+        temp = #{temp,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where dataid = #{dataid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fartecx.pojo.DeviceDataEntity" >
+    update devicedata
+    set t = #{t,jdbcType=TIMESTAMP},
+      device = #{device,jdbcType=VARCHAR},
+      temp = #{temp,jdbcType=DOUBLE}
+    where dataid = #{dataid,jdbcType=VARCHAR}
+  </update>
+</mapper>

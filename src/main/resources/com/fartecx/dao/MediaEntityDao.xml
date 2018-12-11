@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fartecx.dao.MediaEntityDao" >
+  <resultMap id="BaseResultMap" type="com.fartecx.pojo.MediaEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="brief" property="brief" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="createPerson" property="createperson" jdbcType="VARCHAR" />
+    <result column="uploadDate" property="uploaddate" jdbcType="TIMESTAMP" />
+    <result column="showOrder" property="showorder" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, brief, url, createPerson, uploadDate, showOrder
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fartecx.pojo.MediaEntityQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from media
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id,brief,url,createPerson,uploadDate,showOrder
+    from media
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from media
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fartecx.pojo.MediaEntityQuery" >
+    delete from media
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fartecx.pojo.MediaEntity" >
+    insert into media (id, brief, url, 
+      createPerson, uploadDate, showOrder
+      )
+    values (#{id,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{createperson,jdbcType=VARCHAR}, #{uploaddate,jdbcType=TIMESTAMP}, #{showorder,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fartecx.pojo.MediaEntity" >
+    insert into media
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="brief != null" >
+        brief,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="createperson != null" >
+        createPerson,
+      </if>
+      <if test="uploaddate != null" >
+        uploadDate,
+      </if>
+      <if test="showorder != null" >
+        showOrder,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createperson != null" >
+        #{createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaddate != null" >
+        #{uploaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="showorder != null" >
+        #{showorder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fartecx.pojo.MediaEntityQuery" resultType="java.lang.Integer" >
+    select count(*) from media
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update media
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brief != null" >
+        brief = #{record.brief,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createperson != null" >
+        createPerson = #{record.createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploaddate != null" >
+        uploadDate = #{record.uploaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.showorder != null" >
+        showOrder = #{record.showorder,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update media
+    set id = #{record.id,jdbcType=VARCHAR},
+      brief = #{record.brief,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      createPerson = #{record.createperson,jdbcType=VARCHAR},
+      uploadDate = #{record.uploaddate,jdbcType=TIMESTAMP},
+      showOrder = #{record.showorder,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fartecx.pojo.MediaEntity" >
+    update media
+    <set >
+      <if test="brief != null" >
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createperson != null" >
+        createPerson = #{createperson,jdbcType=VARCHAR},
+      </if>
+      <if test="uploaddate != null" >
+        uploadDate = #{uploaddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="showorder != null" >
+        showOrder = #{showorder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fartecx.pojo.MediaEntity" >
+    update media
+    set brief = #{brief,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      createPerson = #{createperson,jdbcType=VARCHAR},
+      uploadDate = #{uploaddate,jdbcType=TIMESTAMP},
+      showOrder = #{showorder,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

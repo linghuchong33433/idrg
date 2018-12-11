@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fartecx.dao.ExpertServiceLogEntityDao" >
+  <resultMap id="BaseResultMap" type="com.fartecx.pojo.ExpertServiceLogEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="q" property="q" jdbcType="VARCHAR" />
+    <result column="a" property="a" jdbcType="VARCHAR" />
+    <result column="start" property="start" jdbcType="TIMESTAMP" />
+    <result column="finish" property="finish" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, q, a, start, finish
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fartecx.pojo.ExpertServiceLogEntityQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from expertservicelog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id,q,a,start,finish
+    from expertservicelog
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from expertservicelog
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fartecx.pojo.ExpertServiceLogEntityQuery" >
+    delete from expertservicelog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fartecx.pojo.ExpertServiceLogEntity" >
+    insert into expertservicelog (id, q, a, start, 
+      finish)
+    values (#{id,jdbcType=VARCHAR}, #{q,jdbcType=VARCHAR}, #{a,jdbcType=VARCHAR}, #{start,jdbcType=TIMESTAMP}, 
+      #{finish,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fartecx.pojo.ExpertServiceLogEntity" >
+    insert into expertservicelog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="q != null" >
+        q,
+      </if>
+      <if test="a != null" >
+        a,
+      </if>
+      <if test="start != null" >
+        start,
+      </if>
+      <if test="finish != null" >
+        finish,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="q != null" >
+        #{q,jdbcType=VARCHAR},
+      </if>
+      <if test="a != null" >
+        #{a,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null" >
+        #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finish != null" >
+        #{finish,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fartecx.pojo.ExpertServiceLogEntityQuery" resultType="java.lang.Integer" >
+    select count(*) from expertservicelog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update expertservicelog
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.q != null" >
+        q = #{record.q,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a != null" >
+        a = #{record.a,jdbcType=VARCHAR},
+      </if>
+      <if test="record.start != null" >
+        start = #{record.start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finish != null" >
+        finish = #{record.finish,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update expertservicelog
+    set id = #{record.id,jdbcType=VARCHAR},
+      q = #{record.q,jdbcType=VARCHAR},
+      a = #{record.a,jdbcType=VARCHAR},
+      start = #{record.start,jdbcType=TIMESTAMP},
+      finish = #{record.finish,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fartecx.pojo.ExpertServiceLogEntity" >
+    update expertservicelog
+    <set >
+      <if test="q != null" >
+        q = #{q,jdbcType=VARCHAR},
+      </if>
+      <if test="a != null" >
+        a = #{a,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null" >
+        start = #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finish != null" >
+        finish = #{finish,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fartecx.pojo.ExpertServiceLogEntity" >
+    update expertservicelog
+    set q = #{q,jdbcType=VARCHAR},
+      a = #{a,jdbcType=VARCHAR},
+      start = #{start,jdbcType=TIMESTAMP},
+      finish = #{finish,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

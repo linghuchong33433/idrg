@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fartecx.dao.BatchEntityDao" >
+  <resultMap id="BaseResultMap" type="com.fartecx.pojo.BatchEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="farm" property="farm" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="descStr" property="desc" jdbcType="VARCHAR" />
+    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="chanzhi" property="chanzhi" jdbcType="DOUBLE" />
+    <result column="chanliang" property="chanliang" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, farm, year, code, descStr, modifyTime, chanzhi, chanliang
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fartecx.pojo.BatchEntityQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from batch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id,farm,year,code,descStr,modifyTime,chanzhi,chanliang
+    from batch
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from batch
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fartecx.pojo.BatchEntityQuery" >
+    delete from batch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fartecx.pojo.BatchEntity" >
+    insert into batch (id, farm, year, 
+      code, descStr, modifyTime, 
+      chanzhi, chanliang)
+    values (#{id,jdbcType=VARCHAR}, #{farm,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, 
+      #{code,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, #{modifytime,jdbcType=TIMESTAMP},
+      #{chanzhi,jdbcType=DOUBLE}, #{chanliang,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fartecx.pojo.BatchEntity" >
+    insert into batch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="farm != null" >
+        farm,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="desc != null" >
+        descStr,
+      </if>
+      <if test="modifytime != null" >
+        modifyTime,
+      </if>
+      <if test="chanzhi != null" >
+        chanzhi,
+      </if>
+      <if test="chanliang != null" >
+        chanliang,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="farm != null" >
+        #{farm,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chanzhi != null" >
+        #{chanzhi,jdbcType=DOUBLE},
+      </if>
+      <if test="chanliang != null" >
+        #{chanliang,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fartecx.pojo.BatchEntityQuery" resultType="java.lang.Integer" >
+    select count(*) from batch
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update batch
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.farm != null" >
+        farm = #{record.farm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.year != null" >
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desc != null" >
+        descStr = #{record.desc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifytime != null" >
+        modifyTime = #{record.modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.chanzhi != null" >
+        chanzhi = #{record.chanzhi,jdbcType=DOUBLE},
+      </if>
+      <if test="record.chanliang != null" >
+        chanliang = #{record.chanliang,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update batch
+    set id = #{record.id,jdbcType=VARCHAR},
+      farm = #{record.farm,jdbcType=VARCHAR},
+      year = #{record.year,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=VARCHAR},
+      descStr = #{record.desc,jdbcType=VARCHAR},
+      modifyTime = #{record.modifytime,jdbcType=TIMESTAMP},
+      chanzhi = #{record.chanzhi,jdbcType=DOUBLE},
+      chanliang = #{record.chanliang,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fartecx.pojo.BatchEntity" >
+    update batch
+    <set >
+      <if test="farm != null" >
+        farm = #{farm,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        descStr = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chanzhi != null" >
+        chanzhi = #{chanzhi,jdbcType=DOUBLE},
+      </if>
+      <if test="chanliang != null" >
+        chanliang = #{chanliang,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fartecx.pojo.BatchEntity" >
+    update batch
+    set farm = #{farm,jdbcType=VARCHAR},
+      year = #{year,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR},
+      descStr = #{desc,jdbcType=VARCHAR},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      chanzhi = #{chanzhi,jdbcType=DOUBLE},
+      chanliang = #{chanliang,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

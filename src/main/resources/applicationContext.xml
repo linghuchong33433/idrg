@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:context="http://www.springframework.org/schema/context" 
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:aop="http://www.springframework.org/schema/aop" 
+xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd 
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+
+
+    <context:property-placeholder location="classpath*:*.properties" />
+    <!--dao的配置信息-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          destroy-method="close">
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="maxActive" value="10" />
+        <property name="minIdle" value="5" />
+    </bean>
+    <!--session工厂-->
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="typeAliasesPackage" value="com.fartecx.pojo"></property>
+        <property name="configLocation" value="classpath:sqlMapConfig.xml"></property>
+    </bean>
+    <!--接口路径扫描-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.fartecx.dao"></property>
+    </bean>
+    <!--service的包扫描-->
+    <context:component-scan base-package="com.fartecx.service"></context:component-scan>
+    <!--事务的管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!--事务的注解驱动-->
+    <tx:annotation-driven ></tx:annotation-driven>
+
+
+
+    <!-- 配置緩存管理器 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <!-- 指定 ehcache 的配置文件，下面会给到 -->
+        <property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml"/>
+    </bean>
+
+    <!-- 配置进行授权和认证的 Realm，要新增一个java类来实现，下面会有，class=包名.类名，init-methood是初始化的方法 -->
+    <bean id="myRealm"
+          class="com.fartecx.shiro.MyRealm"
+          init-method="setCredentialMatcher"></bean>
+
+    <!-- 配置 Shiro 的 SecurityManager Bean. -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="realm" ref="myRealm"/>
+    </bean>
+
+    <!-- 配置 Bean 后置处理器: 会自动的调用和 Spring 整合后各个组件的生命周期方法. -->
+    <bean id="lifecycleBeanPostProcessor"
+          class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 配置 ShiroFilter bean: 该 bean 的 id 必须和 web.xml 文件中配置的 shiro filter 的 name 一致  -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 装配 securityManager -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 配置登陆页面 -->
+        <property name="loginUrl" value="/login.jsp"/>
+        <!-- 登陆成功后的一面 -->
+        <property name="successUrl" value="/index.html"/>
+        <property name="unauthorizedUrl" value="/error.jsp"/>
+        <!-- 具体配置需要拦截哪些 URL, 以及访问对应的 URL 时使用 Shiro 的什么 Filter 进行拦截.  -->
+        <property name="filterChainDefinitions">
+            <value>
+                /gologin.jsp=anon
+                /index.jsp=anon
+                /doadd.jsp=authc,perms[ad,te]
+                /doget.jsp=authc,perms[te]
+                /doupdate.jsp=authc,perms[ad]
+                /dodel.jsp=authc,perms[ad]
+            </value>
+        </property>
+    </bean>
+
+
+    <!--&lt;!&ndash;shiro&ndash;&gt;
+    &lt;!&ndash;配置jdbcTemplate&ndash;&gt;
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <bean id="shiroDao" class="com.fartecx.dao.ShiroDao">
+        <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+    </bean>
+
+    <bean id="shiroService" class="com.fartecx.service.ShiroService">
+        <property name="shiroDao" ref="shiroDao"/>
+    </bean>
+
+    <bean id="myShiroRealm" class="com.fartecx.utils.MyShiroRealm">
+        <property name="shiroService" ref="shiroService"/>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myShiroRealm"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    <property name="securityManager" ref="securityManager"/>
+    &lt;!&ndash;去登陆的地址&ndash;&gt;
+    <property name="loginUrl" value="/gologin.html"/>
+    &lt;!&ndash;登陆成功的跳转地址&ndash;&gt;
+    <property name="successUrl" value="/index.html"/>
+    &lt;!&ndash;验证失败的跳转地址&ndash;&gt;
+    <property name="unauthorizedUrl" value="/error.jsp"/>
+    &lt;!&ndash;定义过滤的规则&ndash;&gt;
+    &lt;!&ndash;数据库读取url和地址&ndash;&gt;
+    &lt;!&ndash;anon是不需要验证，authc是需要验证，perms[admin]代表要admin权限&ndash;&gt;
+    <property name="filterChainDefinitions">
+        <value>
+            /gologin.html=anon
+            /index.html=anon
+            /doadd.html=authc,perms[ad,te]
+            /doget.html=authc,perms[te]
+            /doupdate.html=authc,perms[ad]
+            /dodel.html=authc,perms[ad]
+        </value>
+    </property>
+</bean>-->
+
+</beans>

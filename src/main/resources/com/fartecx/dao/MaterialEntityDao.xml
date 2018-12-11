@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fartecx.dao.MaterialEntityDao" >
+  <resultMap id="BaseResultMap" type="com.fartecx.pojo.MaterialEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="farm" property="farm" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="DOUBLE" />
+    <result column="used" property="used" jdbcType="DOUBLE" />
+    <result column="validDate" property="validdate" jdbcType="DATE" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="modifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="inputDate" property="inputdate" jdbcType="TIMESTAMP" />
+    <result column="descStr" property="desc" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, farm, type, count, used, validDate, code, supplier, modifyDate, inputDate, descStr, 
+      flag
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fartecx.pojo.MaterialEntityQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id,farm,type,count,used,validDate,code,supplier,modifyDate,inputDate,descStr,flag
+    from material
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from material
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fartecx.pojo.MaterialEntityQuery" >
+    delete from material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fartecx.pojo.MaterialEntity" >
+    insert into material (id, farm, type, 
+      count, used, validDate, 
+      code, supplier, modifyDate, 
+      inputDate, descStr, flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{farm,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{count,jdbcType=DOUBLE}, #{used,jdbcType=DOUBLE}, #{validdate,jdbcType=DATE}, 
+      #{code,jdbcType=VARCHAR}, #{supplier,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}, 
+      #{inputdate,jdbcType=TIMESTAMP}, #{desc,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fartecx.pojo.MaterialEntity" >
+    insert into material
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="farm != null" >
+        farm,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="used != null" >
+        used,
+      </if>
+      <if test="validdate != null" >
+        validDate,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="supplier != null" >
+        supplier,
+      </if>
+      <if test="modifydate != null" >
+        modifyDate,
+      </if>
+      <if test="inputdate != null" >
+        inputDate,
+      </if>
+      <if test="desc != null" >
+        descStr,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="farm != null" >
+        #{farm,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=DOUBLE},
+      </if>
+      <if test="used != null" >
+        #{used,jdbcType=DOUBLE},
+      </if>
+      <if test="validdate != null" >
+        #{validdate,jdbcType=DATE},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputdate != null" >
+        #{inputdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fartecx.pojo.MaterialEntityQuery" resultType="java.lang.Integer" >
+    select count(*) from material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update material
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.farm != null" >
+        farm = #{record.farm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        count = #{record.count,jdbcType=DOUBLE},
+      </if>
+      <if test="record.used != null" >
+        used = #{record.used,jdbcType=DOUBLE},
+      </if>
+      <if test="record.validdate != null" >
+        validDate = #{record.validdate,jdbcType=DATE},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplier != null" >
+        supplier = #{record.supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifydate != null" >
+        modifyDate = #{record.modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inputdate != null" >
+        inputDate = #{record.inputdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.desc != null" >
+        descStr = #{record.desc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update material
+    set id = #{record.id,jdbcType=VARCHAR},
+      farm = #{record.farm,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      count = #{record.count,jdbcType=DOUBLE},
+      used = #{record.used,jdbcType=DOUBLE},
+      validDate = #{record.validdate,jdbcType=DATE},
+      code = #{record.code,jdbcType=VARCHAR},
+      supplier = #{record.supplier,jdbcType=VARCHAR},
+      modifyDate = #{record.modifydate,jdbcType=TIMESTAMP},
+      inputDate = #{record.inputdate,jdbcType=TIMESTAMP},
+      descStr = #{record.desc,jdbcType=VARCHAR},
+      flag = #{record.flag,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fartecx.pojo.MaterialEntity" >
+    update material
+    <set >
+      <if test="farm != null" >
+        farm = #{farm,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=DOUBLE},
+      </if>
+      <if test="used != null" >
+        used = #{used,jdbcType=DOUBLE},
+      </if>
+      <if test="validdate != null" >
+        validDate = #{validdate,jdbcType=DATE},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        supplier = #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        modifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputdate != null" >
+        inputDate = #{inputdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="desc != null" >
+        descStr = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fartecx.pojo.MaterialEntity" >
+    update material
+    set farm = #{farm,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      count = #{count,jdbcType=DOUBLE},
+      used = #{used,jdbcType=DOUBLE},
+      validDate = #{validdate,jdbcType=DATE},
+      code = #{code,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      modifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      inputDate = #{inputdate,jdbcType=TIMESTAMP},
+      descStr = #{desc,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

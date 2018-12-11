@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fartecx.dao.FarmEntityDao" >
+  <resultMap id="BaseResultMap" type="com.fartecx.pojo.FarmEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="zoom" property="zoom" jdbcType="INTEGER" />
+    <result column="geojson" property="geojson" jdbcType="VARCHAR" />
+    <result column="modifyDate" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="owner" property="owner" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="INTEGER" />
+    <result column="showOrder" property="showorder" jdbcType="INTEGER" />
+    <result column="contactPerson" property="contactperson" jdbcType="VARCHAR" />
+    <result column="contactPhone" property="contactphone" jdbcType="VARCHAR" />
+    <result column="contactAddr" property="contactaddr" jdbcType="VARCHAR" />
+    <result column="descStr" property="desc" jdbcType="VARCHAR" />
+    <result column="bl" property="bl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, code, name, position, zoom, geojson, modifyDate, owner, flag, showOrder, contactPerson, 
+      contactPhone, contactAddr, descStr, bl
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fartecx.pojo.FarmEntityQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from farm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id,code,name,position,zoom,geojson,modifyDate,owner,flag,showOrder,contactPerson,contactPhone,contactAddr,descStr,bl
+    from farm
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from farm
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fartecx.pojo.FarmEntityQuery" >
+    delete from farm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fartecx.pojo.FarmEntity" >
+    insert into farm (id, code, name, 
+      position, zoom, geojson, 
+      modifyDate, owner, flag, 
+      showOrder, contactPerson, contactPhone, 
+      contactAddr, descStr, bl
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{zoom,jdbcType=INTEGER}, #{geojson,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP}, #{owner,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, 
+      #{showorder,jdbcType=INTEGER}, #{contactperson,jdbcType=VARCHAR}, #{contactphone,jdbcType=VARCHAR}, 
+      #{contactaddr,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, #{bl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fartecx.pojo.FarmEntity" >
+    insert into farm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="zoom != null" >
+        zoom,
+      </if>
+      <if test="geojson != null" >
+        geojson,
+      </if>
+      <if test="modifydate != null" >
+        modifyDate,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="showorder != null" >
+        showOrder,
+      </if>
+      <if test="contactperson != null" >
+        contactPerson,
+      </if>
+      <if test="contactphone != null" >
+        contactPhone,
+      </if>
+      <if test="contactaddr != null" >
+        contactAddr,
+      </if>
+      <if test="desc != null" >
+        descStr,
+      </if>
+      <if test="bl != null" >
+        bl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="zoom != null" >
+        #{zoom,jdbcType=INTEGER},
+      </if>
+      <if test="geojson != null" >
+        #{geojson,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="showorder != null" >
+        #{showorder,jdbcType=INTEGER},
+      </if>
+      <if test="contactperson != null" >
+        #{contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="contactphone != null" >
+        #{contactphone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddr != null" >
+        #{contactaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="bl != null" >
+        #{bl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fartecx.pojo.FarmEntityQuery" resultType="java.lang.Integer" >
+    select count(*) from farm
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update farm
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null" >
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zoom != null" >
+        zoom = #{record.zoom,jdbcType=INTEGER},
+      </if>
+      <if test="record.geojson != null" >
+        geojson = #{record.geojson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifydate != null" >
+        modifyDate = #{record.modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.owner != null" >
+        owner = #{record.owner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flag != null" >
+        flag = #{record.flag,jdbcType=INTEGER},
+      </if>
+      <if test="record.showorder != null" >
+        showOrder = #{record.showorder,jdbcType=INTEGER},
+      </if>
+      <if test="record.contactperson != null" >
+        contactPerson = #{record.contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactphone != null" >
+        contactPhone = #{record.contactphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactaddr != null" >
+        contactAddr = #{record.contactaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desc != null" >
+        descStr = #{record.desc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bl != null" >
+        bl = #{record.bl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update farm
+    set id = #{record.id,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      zoom = #{record.zoom,jdbcType=INTEGER},
+      geojson = #{record.geojson,jdbcType=VARCHAR},
+      modifyDate = #{record.modifydate,jdbcType=TIMESTAMP},
+      owner = #{record.owner,jdbcType=VARCHAR},
+      flag = #{record.flag,jdbcType=INTEGER},
+      showOrder = #{record.showorder,jdbcType=INTEGER},
+      contactPerson = #{record.contactperson,jdbcType=VARCHAR},
+      contactPhone = #{record.contactphone,jdbcType=VARCHAR},
+      contactAddr = #{record.contactaddr,jdbcType=VARCHAR},
+      descStr = #{record.desc,jdbcType=VARCHAR},
+      bl = #{record.bl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fartecx.pojo.FarmEntity" >
+    update farm
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="zoom != null" >
+        zoom = #{zoom,jdbcType=INTEGER},
+      </if>
+      <if test="geojson != null" >
+        geojson = #{geojson,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        modifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="showorder != null" >
+        showOrder = #{showorder,jdbcType=INTEGER},
+      </if>
+      <if test="contactperson != null" >
+        contactPerson = #{contactperson,jdbcType=VARCHAR},
+      </if>
+      <if test="contactphone != null" >
+        contactPhone = #{contactphone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactaddr != null" >
+        contactAddr = #{contactaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        descStr = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="bl != null" >
+        bl = #{bl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fartecx.pojo.FarmEntity" >
+    update farm
+    set code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      zoom = #{zoom,jdbcType=INTEGER},
+      geojson = #{geojson,jdbcType=VARCHAR},
+      modifyDate = #{modifydate,jdbcType=TIMESTAMP},
+      owner = #{owner,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      showOrder = #{showorder,jdbcType=INTEGER},
+      contactPerson = #{contactperson,jdbcType=VARCHAR},
+      contactPhone = #{contactphone,jdbcType=VARCHAR},
+      contactAddr = #{contactaddr,jdbcType=VARCHAR},
+      descStr = #{desc,jdbcType=VARCHAR},
+      bl = #{bl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

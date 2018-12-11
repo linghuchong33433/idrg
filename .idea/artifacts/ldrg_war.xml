@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ldrg:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="ldrg.war">
+      <element id="artifact" artifact-name="ldrg:war exploded" />
+    </root>
+  </artifact>
+</component>
